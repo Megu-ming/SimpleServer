@@ -24,6 +24,9 @@ protected:
 	UPROPERTY(EditAnywhere)
 	UCharacterMovementComponent* MovementComponent;
 
+public:
+	inline bool IsJump() const { return bIsFalling; }
+
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FVector Velocity;
