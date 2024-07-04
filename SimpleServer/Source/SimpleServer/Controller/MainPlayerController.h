@@ -16,6 +16,7 @@ class SIMPLESERVER_API AMainPlayerController : public APlayerController
 
 public:
 	AMainPlayerController();
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -23,11 +24,16 @@ protected:
 
 protected:
 	void OnMove(const FInputActionValue& InputActionValue);
+	void OnMoveReleased();
 	void OnLookMouse(const FInputActionValue& InputActionValue);
 	void OnJump();
 	void OnEvade();
 
 private:
 	APlayerCharacter* MainCharacter;
-	UAnimMontage* EvadeMontage;
+
+private:
+	bool bIsMoving;
+	UAnimMontage* FrontEvadeMontage;
+	UAnimMontage* BackEvadeMontage;
 };

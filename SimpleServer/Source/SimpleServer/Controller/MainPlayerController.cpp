@@ -1,5 +1,4 @@
 #include "Controller/MainPlayerController.h"
-#include "InputActionValue.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 #include "InputActionValue.h"
@@ -13,7 +12,12 @@ AMainPlayerController::AMainPlayerController()
 	{
 		static ConstructorHelpers::FObjectFinder<UAnimMontage> Asset(TEXT("/Script/Engine.AnimMontage'/Game/SimpleServer/StartMap/Animation/Frank_RPG_Assassin_Evade_F_Montage.Frank_RPG_Assassin_Evade_F_Montage'"));
 		ensure(Asset.Succeeded());
-		EvadeMontage = Asset.Object;
+		FrontEvadeMontage = Asset.Object;
+	}
+	{
+		static ConstructorHelpers::FObjectFinder<UAnimMontage> Asset(TEXT("/Script/Engine.AnimMontage'/Game/SimpleServer/StartMap/Animation/Frank_RPG_Assassin_Evade_B_Montage.Frank_RPG_Assassin_Evade_B_Montage'"));
+		ensure(Asset.Succeeded());
+		BackEvadeMontage = Asset.Object;
 	}
 }
 
@@ -44,6 +48,7 @@ void AMainPlayerController::SetupInputComponent()
 	{
 		const UBasicInputDataConfig* BasicInputDataConfig = GetDefault<UBasicInputDataConfig>();
 		EnhancedInputComponent->BindAction(BasicInputDataConfig->Move, ETriggerEvent::Triggered, this, &ThisClass::OnMove);
+		EnhancedInputComponent->BindAction(BasicInputDataConfig->Move, ETriggerEvent::Completed, this, &ThisClass::OnMoveReleased);
 		EnhancedInputComponent->BindAction(BasicInputDataConfig->LookMouse, ETriggerEvent::Triggered, this, &ThisClass::OnLookMouse);
 		EnhancedInputComponent->BindAction(BasicInputDataConfig->Jump, ETriggerEvent::Started, this, &ThisClass::OnJump);
 		EnhancedInputComponent->BindAction(BasicInputDataConfig->Evade, ETriggerEvent::Started, this, &ThisClass::OnEvade);
@@ -63,6 +68,12 @@ void AMainPlayerController::OnMove(const FInputActionValue& InputActionValue)
 
 	MainCharacter->AddMovementInput(ForwardVector, ScaleValueY);
 	MainCharacter->AddMovementInput(RightVector, ScaleValueX);
+	bIsMoving = true;
+}
+
+void AMainPlayerController::OnMoveReleased()
+{
+	bIsMoving = false;
 }
 
 void AMainPlayerController::OnLookMouse(const FInputActionValue& InputActionValue)
@@ -77,7 +88,7 @@ void AMainPlayerController::OnLookMouse(const FInputActionValue& InputActionValu
 void AMainPlayerController::OnJump()
 {
 	UAnimInstance* AnimInstance = MainCharacter->GetMesh()->GetAnimInstance();
-	if(!AnimInstance->Montage_IsPlaying(EvadeMontage))
+	if (!AnimInstance->Montage_IsPlaying(FrontEvadeMontage))
 	{
 		MainCharacter->Jump();
 	}
@@ -87,7 +98,16 @@ void AMainPlayerController::OnEvade()
 {
 	UMannyAnimInstance* AnimInstance = Cast<UMannyAnimInstance>(MainCharacter->GetMesh()->GetAnimInstance());
 	if (!AnimInstance) { return; }
-	if (AnimInstance->Montage_IsPlaying(EvadeMontage)) { return; }
+	if (AnimInstance->Montage_IsPlaying(FrontEvadeMontage)) { return; }
+	if (AnimInstance->Montage_IsPlaying(BackEvadeMontage)) { return; }
 	if (AnimInstance->IsJump()) { return; }
-	AnimInstance->Montage_Play(EvadeMontage);
+	if (bIsMoving) // 이동 중일 때
+	{
+		AnimInstance->Montage_Play(FrontEvadeMontage); // 이동 중 회피 몽타주 실행
+	}
+	else // 정지 상태일 때
+	{
+		AnimInstance->Montage_Play(BackEvadeMontage); // 정지 상태 회피 몽타주 실행
+	}
+	bIsMoving = false;
 }
