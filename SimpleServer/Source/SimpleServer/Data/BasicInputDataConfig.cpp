@@ -33,7 +33,7 @@ UBasicInputDataConfig::UBasicInputDataConfig()
 	}
 	{
 		static ConstructorHelpers::FObjectFinder<UInputAction> Asset
-		{ TEXT("/Script/EnhancedInput.InputAction'/Game/SimpleServer/StartMap/Input/IA_Evade.IA_Evade'") };
+		{ TEXT("/Script/EnhancedInput.InputAction'/Game/SimpleServer/StartMap/Input/IA_Evade_Run.IA_Evade_Run'") };
 		check(Asset.Succeeded());
 		Evade = Asset.Object;
 	}
