@@ -27,7 +27,7 @@ protected:
 	void OnMoveReleased();
 	void OnLookMouse(const FInputActionValue& InputActionValue);
 	void OnJump();
-	void OnEvade();
+	void OnEvadenRun();
 
 private:
 	APlayerCharacter* MainCharacter;
@@ -35,5 +35,4 @@ private:
 private:
 	bool bIsMoving;
 	UAnimMontage* FrontEvadeMontage;
-	UAnimMontage* BackEvadeMontage;
 };

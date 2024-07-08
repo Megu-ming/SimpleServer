@@ -5,7 +5,10 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/StatusComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "UI/PlayerCombatUserWidget.h"
+#include "Components/TimelineComponent.h"
 
 // Sets default values
 APlayerCharacter::APlayerCharacter()
@@ -15,6 +18,7 @@ APlayerCharacter::APlayerCharacter()
 
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
+	StatusComponent = CreateDefaultSubobject<UStatusComponent>(TEXT("StatusComponent"));
 
 	USkeletalMeshComponent* SkeletalMesh = GetMesh();
 	{
@@ -43,6 +47,15 @@ APlayerCharacter::APlayerCharacter()
 
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	bUseControllerRotationYaw = false;
+
+	StatusComponent->MaxStamina = 60.f;
+	StatusComponent->CurrentStamina = 30.f;
+	StatusComponent->StaminaRegen = 0.2f;
+
+	StatusComponent->WalkSpeed = 400.f;
+	StatusComponent->JogSpeed = 400.f;
+	StatusComponent->RunSpeed = 600.f;
+
 }
 
 // Called when the game starts or when spawned
@@ -65,4 +78,3 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 }
-

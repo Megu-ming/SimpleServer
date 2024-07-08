@@ -8,6 +8,16 @@
 
 class USpringArmComponent;
 class UCameraComponent;
+class UStatusComponent;
+class UPlayerCombatUserWidget;
+class UTimelineComponent;
+
+UENUM(BlueprintType)
+enum class EPlayerState : uint8
+{
+	None,
+	Running
+};
 
 UCLASS()
 class SIMPLESERVER_API APlayerCharacter : public ACharacter
@@ -34,4 +44,8 @@ protected:
 	USpringArmComponent* SpringArm;
 	UPROPERTY(EditAnywhere)
 	UCameraComponent* Camera;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UStatusComponent* StatusComponent;
+	UPROPERTY(BlueprintReadOnly)
+	UPlayerCombatUserWidget* UI_PlayerCombat;
 };
