@@ -34,5 +34,4 @@ private:
 
 private:
 	bool bIsMoving;
-	UAnimMontage* FrontEvadeMontage;
 };

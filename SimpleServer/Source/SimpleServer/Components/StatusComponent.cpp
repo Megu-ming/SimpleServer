@@ -13,11 +13,6 @@ UStatusComponent::UStatusComponent()
 	// ...
 }
 
-void UStatusComponent::BeginPlay()
-{
-	Super::BeginPlay();
-}
-
 void UStatusComponent::DecreaseStamina(const float InAmount)
 {
 	const float Result = CurrentStamina - InAmount;

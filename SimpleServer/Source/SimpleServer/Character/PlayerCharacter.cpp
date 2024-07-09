@@ -9,6 +9,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "UI/PlayerCombatUserWidget.h"
 #include "Components/TimelineComponent.h"
+#include "Animation/MannyAnimInstance.h"
 
 // Sets default values
 APlayerCharacter::APlayerCharacter()
@@ -26,11 +27,7 @@ APlayerCharacter::APlayerCharacter()
 		ensure(Asset.Object);
 		SkeletalMesh->SetSkeletalMesh(Asset.Object);
 	}
-	{
-		static ConstructorHelpers::FClassFinder<UAnimInstance> Asset(TEXT("/Script/Engine.AnimBlueprint'/Game/SimpleServer/StartMap/Animation/ABP_Manny.ABP_Manny_C'"));
-		ensure(Asset.Class);
-		SkeletalMesh->SetAnimInstanceClass(Asset.Class);
-	}
+
 	SkeletalMesh->SetRelativeLocation(FVector(0., 0., -88.));
 	SkeletalMesh->SetRelativeRotation(FRotator(0., -90., 0.));
 

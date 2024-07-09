@@ -12,13 +12,6 @@ class UStatusComponent;
 class UPlayerCombatUserWidget;
 class UTimelineComponent;
 
-UENUM(BlueprintType)
-enum class EPlayerState : uint8
-{
-	None,
-	Running
-};
-
 UCLASS()
 class SIMPLESERVER_API APlayerCharacter : public ACharacter
 {

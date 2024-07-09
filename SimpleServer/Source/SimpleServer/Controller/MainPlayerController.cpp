@@ -9,11 +9,7 @@
 
 AMainPlayerController::AMainPlayerController()
 {
-	{
-		static ConstructorHelpers::FObjectFinder<UAnimMontage> Asset(TEXT("/Script/Engine.AnimMontage'/Game/SimpleServer/StartMap/Animation/Assassin/Frank_RPG_Assassin_Evade_F_Montage.Frank_RPG_Assassin_Evade_F_Montage'"));
-		ensure(Asset.Succeeded());
-		FrontEvadeMontage = Asset.Object;
-	}
+
 }
 
 void AMainPlayerController::BeginPlay()
@@ -46,7 +42,7 @@ void AMainPlayerController::SetupInputComponent()
 		EnhancedInputComponent->BindAction(BasicInputDataConfig->Move, ETriggerEvent::Completed, this, &ThisClass::OnMoveReleased);
 		EnhancedInputComponent->BindAction(BasicInputDataConfig->LookMouse, ETriggerEvent::Triggered, this, &ThisClass::OnLookMouse);
 		EnhancedInputComponent->BindAction(BasicInputDataConfig->Jump, ETriggerEvent::Started, this, &ThisClass::OnJump);
-		EnhancedInputComponent->BindAction(BasicInputDataConfig->Evade, ETriggerEvent::Started, this, &ThisClass::OnEvadenRun);
+		//EnhancedInputComponent->BindAction(BasicInputDataConfig->Evade, ETriggerEvent::Started, this, &ThisClass::OnEvadenRun);
 	}
 }
 
@@ -83,7 +79,7 @@ void AMainPlayerController::OnLookMouse(const FInputActionValue& InputActionValu
 void AMainPlayerController::OnJump()
 {
 	UAnimInstance* AnimInstance = MainCharacter->GetMesh()->GetAnimInstance();
-	if (!AnimInstance->Montage_IsPlaying(FrontEvadeMontage))
+	if (!AnimInstance->Montage_IsPlaying(nullptr))
 	{
 		MainCharacter->Jump();
 	}

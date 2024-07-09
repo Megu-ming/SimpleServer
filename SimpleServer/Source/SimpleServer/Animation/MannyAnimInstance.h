@@ -20,7 +20,7 @@ protected:
 
 protected:
 	UPROPERTY(EditAnywhere)
-	APlayerCharacter* Character;
+	APlayerCharacter* Character; 
 	UPROPERTY(EditAnywhere)
 	UCharacterMovementComponent* MovementComponent;
 

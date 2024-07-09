@@ -16,7 +16,6 @@ public:
 	// Sets default values for this component's properties
 	UStatusComponent();
 
-	virtual void BeginPlay() override;
 
 	UFUNCTION(BlueprintCallable)
 	void DecreaseStamina(const float InAmount);
